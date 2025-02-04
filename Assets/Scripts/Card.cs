@@ -10,6 +10,7 @@ public class Card : MonoBehaviour
 
     public string card_name;
     public string description;
+    //health is number
     public int health;
     public int cost;
     public int damage;
