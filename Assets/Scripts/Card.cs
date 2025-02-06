@@ -11,16 +11,16 @@ public class Card : MonoBehaviour
     public string card_name;
     public string description;
     //health is number
-    public int health;
-    public int cost;
-    public int damage;
     public Sprite sprite;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
-    public TextMeshProUGUI healthText;
-    public TextMeshProUGUI costText;
-    public TextMeshProUGUI damageText;
+    public TextMeshProUGUI TopLeft;
+    public TextMeshProUGUI TopRight;
+    public TextMeshProUGUI BottomLeft;
+    public TextMeshProUGUI BottomRight;
     public Image spriteImage;
+    public string valueOnCard = "none";
+    public int valueNotOnCard = 9; //this will not stay 9
         
 
     // Start is called before the first frame update
@@ -28,15 +28,15 @@ public class Card : MonoBehaviour
     {
         card_name = data.card_name;
         description = data.description;
-        health = data.health;
-        cost = data.cost;
-        damage = data.damage;
+        valueOnCard = data.valueOnCard;
+        valueNotOnCard = data.valueNotOnCard;
         sprite = data.sprite;
         nameText.text = card_name;
         descriptionText.text = description;
-        healthText.text = health.ToString();
-        costText.text = cost.ToString();
-        damageText.text = damage.ToString();
+        TopLeft.text = valueOnCard;
+        TopRight.text = valueOnCard;
+        BottomLeft.text = valueOnCard;
+        BottomRight.text = valueOnCard;
         spriteImage.sprite = sprite;
 
     }

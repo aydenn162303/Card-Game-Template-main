@@ -7,10 +7,9 @@ public class Card_data : ScriptableObject
 {
     public string card_name;
     public string description;
+    public string valueOnCard;
+    public int valueNotOnCard;
     //health is number
-    public int health;
-    public int cost;
-    public int damage;
     public Sprite sprite;
 
 }

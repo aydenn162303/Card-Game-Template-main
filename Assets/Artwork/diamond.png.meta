@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ca288dbafc7af411ea70f76eeea65215
+guid: 6bfd09226df75483db0d16a687eedcec
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5002113075698526336
-    second: "Screenshot 2025-02-04 at 1.35.24\u202FPM_0"
+      213: 1768240043701040873
+    second: pixil-frame-0-2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "Screenshot 2025-02-04 at 1.35.24\u202FPM_0"
+      name: pixil-frame-0-2_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 4
         y: 0
-        width: 588
-        height: 582
+        width: 7
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 088e85b07531b6540800000000000000
-      internalID: 5002113075698526336
+      spriteID: 9e6fb6283fc0a8810800000000000000
+      internalID: 1768240043701040873
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "Screenshot 2025-02-04 at 1.35.24\u202FPM_0": 5002113075698526336
+      pixil-frame-0-2_0: 1768240043701040873
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
