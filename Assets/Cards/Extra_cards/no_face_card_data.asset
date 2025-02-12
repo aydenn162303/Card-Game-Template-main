@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c025b4487bfbb41fca186c7d9d6e18a5, type: 3}
-  m_Name: add_two
+  m_Name: no_face_card_data
   m_EditorClassIdentifier: 
-  card_name: ' '
+  card_name: No face card
   description: ' '
   valueOnCard: 
   valueNotOnCard: 0
-  sprite: {fileID: -3337038689812066966, guid: aa3a57506d866443393e2c420b91fabb, type: 3}
+  sprite: {fileID: 4033355307889638888, guid: 3518b87cd79ea4358b60556a7543a36c, type: 3}
