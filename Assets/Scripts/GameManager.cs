@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,9 +13,13 @@ public class GameManager : MonoBehaviour
     public List<Card> ai_hand = new List<Card>();
     public List<Card> discard_pile = new List<Card>();
 
+    private float buttonPressDelay = 0.3f;
+
     public Button Hit;
     public Button Stand;
     public Button DoubleDown;
+
+    public TMPro.TextMeshProUGUI playerHandValue;
 
     public int targetHandSize = 21;
     public int playerSpecialCards = 0;
@@ -50,7 +55,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        buttonPressDelay -= Time.deltaTime;
     }
 
     void StartGame()
