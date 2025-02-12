@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class GameManager : MonoBehaviour
     public List<Card> discard_pile = new List<Card>();
 
     private float buttonPressDelay = 0.3f;
+
+
 
     public Button Hit;
     public Button Stand;
@@ -49,7 +52,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartGame();
     }
 
     // Update is called once per frame
@@ -66,12 +69,44 @@ public class GameManager : MonoBehaviour
     
     void DealAI()
     {
-        Deal();
+        DealPlayer();
     }
 
-    void Deal()
+    void DealPlayer()
     {
-        
+        DrawCardPlayer();
+        DrawCardPlayer();
+    }
+
+    public void DrawCardPlayer()
+    {
+        if (buttonPressDelay > 0)
+        {
+            return;
+        }
+        else
+        {
+            buttonPressDelay = 0.3f;
+        }
+
+        Card card = deck[Random.Range(0, 51)];
+        player_hand.Add(card);
+        deck.Remove(card);
+        instantiateCard(card);
+
+    }
+
+    void instantiateCard(Card card)
+    {
+        GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
+        int listpos = player_hand.IndexOf(card);
+        cardObject.transform.position = new Vector2(listpos * 100, 5);
+//add to total
+    }
+
+    void DrawCardAI()
+    {
+
     }
 
     void DealFaceCard()

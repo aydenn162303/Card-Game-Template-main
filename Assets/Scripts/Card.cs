@@ -43,8 +43,8 @@ public class Card : MonoBehaviour
         BottomRight.text = valueOnCard;
         spriteImage.sprite = sprite;
 
-        listpos = Dealer.GetComponent<GameManager>().player_hand.IndexOf(this.gameObject.GetComponent<Card>());
-        gameObject.transform.position = new Vector2(listpos * 100, -5);
+        //listpos = Dealer.GetComponent<GameManager>().player_hand.IndexOf(this.gameObject.GetComponent<Card>());
+        //gameObject.transform.position = new Vector2(listpos * 100, + 5);
     }
 
     // Update is called once per frame
