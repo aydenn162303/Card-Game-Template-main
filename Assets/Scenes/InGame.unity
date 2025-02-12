@@ -715,7 +715,8 @@ MonoBehaviour:
   discard_pile: []
   Hit: {fileID: 1966453001}
   Stand: {fileID: 781094499}
-  DoubleDown: {fileID: 0}
+  DoubleDown: {fileID: 54110924}
+  playerHandValue: {fileID: 1954370370}
   targetHandSize: 21
   playerSpecialCards: 0
   aiSpecialCards: 0
@@ -1757,6 +1758,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1284887786}
-  - {fileID: 4002591297304670402}
   - {fileID: 622756966}
+  - {fileID: 4002591297304670402}
   - {fileID: 165144990}
