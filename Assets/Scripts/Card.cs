@@ -21,8 +21,6 @@ public class Card : MonoBehaviour
     public Image spriteImage;
     public string valueOnCard = "none";
     public int valueNotOnCard = 9; //this will not stay 9
-
-    private int listpos = 0;
     private GameObject Dealer;
         
 
