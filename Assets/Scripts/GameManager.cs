@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public List<Card> ai_hand = new List<Card>();
     public List<Card> discard_pile = new List<Card>();
 
-    private float buttonPressDelay = 0.3f;
+    private float buttonPressDelay = 0.5f;
 
 
 
@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     public int targetHandSize = 21;
     public int playerSpecialCards = 0;
+    public int playerHandTotal;
+    public int AIHandTotal;
     public int aiSpecialCards = 0;
     //These will reset every game
     public int playerGamesWon = 0;
@@ -86,7 +88,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            buttonPressDelay = 0.3f;
+            buttonPressDelay = 0.5f;
         }
 
         Card card = deck[Random.Range(0, 51)];
@@ -100,8 +102,10 @@ public class GameManager : MonoBehaviour
     {
         GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
         int listpos = player_hand.IndexOf(card);
-        cardObject.transform.position = new Vector2(listpos * 100, 5);
-//add to total
+        cardObject.transform.position = new Vector2(listpos * 200, 5);
+        Card_data cardCurrentVal = card.data;
+        playerHandTotal += cardCurrentVal.valueNotOnCard;
+        playerHandValue.text = "Hand: " + playerHandTotal.ToString();
     }
 
     void DrawCardAI()
