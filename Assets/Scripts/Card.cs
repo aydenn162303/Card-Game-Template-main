@@ -41,6 +41,7 @@ public class Card : MonoBehaviour
         BottomRight.text = valueOnCard;
         spriteImage.sprite = sprite;
 
+
         //listpos = Dealer.GetComponent<GameManager>().player_hand.IndexOf(this.gameObject.GetComponent<Card>());
         //gameObject.transform.position = new Vector2(listpos * 100, + 5);
     }
@@ -48,6 +49,20 @@ public class Card : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (this.gameObject.transform.position.y < 8)
+        {
+            float x = this.gameObject.transform.position.x;
+            float y = this.gameObject.transform.position.y;
+            this.gameObject.transform.position = new Vector2(x, y + 0.5f);
+            Delay(0.1f);
+        }
     }
+
+
+    IEnumerator Delay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+    }
+
+
 }
