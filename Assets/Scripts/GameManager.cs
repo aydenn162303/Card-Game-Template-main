@@ -102,7 +102,8 @@ public class GameManager : MonoBehaviour
     {
         GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
         int listpos = player_hand.IndexOf(card);
-        cardObject.transform.position = new Vector2(listpos * 200, 5);
+        RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
+        cardObject.transform.position = new Vector2(listpos * (canvasRect.rect.width / 10), 5);
         Card_data cardCurrentVal = card.data;
         playerHandTotal += cardCurrentVal.valueNotOnCard;
         playerHandValue.text = "Hand: " + playerHandTotal.ToString();
