@@ -129,6 +129,32 @@ public class GameManager : MonoBehaviour
 
     }
 
+    void CheckIfBust()
+    {
+        if (playerHandTotal > targetHandSize)
+        {
+            print("Player Bust");
+            aiGamesWon++;
+            playerHandTotal = 0;
+            AIHandTotal = 0;
+            player_hand.Clear();
+            ai_hand.Clear();
+            discard_pile.Clear();
+            StartGame();
+        }
+        else if (AIHandTotal > targetHandSize)
+        {
+            print("AI Bust");
+            playerGamesWon++;
+            playerHandTotal = 0;
+            AIHandTotal = 0;
+            player_hand.Clear();
+            ai_hand.Clear();
+            discard_pile.Clear();
+            StartGame();
+        }
+    }
+
     public void LoadNewScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
