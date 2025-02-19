@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     private float buttonPressDelay = 0.5f;
 
+    private bool isAce11 = false;
+
 
 
     public Button Hit;
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
 
     void DealPlayerBegin()
     {
+        isAce11 = false;
         buttonPressDelay = 0f;
         DrawCardPlayer();
         buttonPressDelay = 0f;
@@ -101,6 +104,13 @@ public class GameManager : MonoBehaviour
             buttonPressDelay = 0.5f;
         }
 
+        if (isAce11 == true && playerHandTotal < targetHandSize)
+        {
+            playerHandTotal -= 10;
+            isAce11 = false;
+        }
+
+
         Card card = deck[Random.Range(0, 51)];
         player_hand.Add(card);
         deck.Remove(card);
@@ -115,7 +125,25 @@ public class GameManager : MonoBehaviour
         RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
         cardObject.transform.position = new Vector2(listpos * (canvasRect.rect.width / 10), -150);
         Card_data cardCurrentVal = card.data;
-        playerHandTotal += cardCurrentVal.valueNotOnCard;
+
+        if (cardCurrentVal.valueNotOnCard == 1 && playerHandTotal + 11 <= targetHandSize)
+        {
+            playerHandTotal += 11;
+            isAce11 = true;
+            print("ace value 11");
+        }
+        else if (cardCurrentVal.valueNotOnCard == 1 && playerHandTotal + 11 > targetHandSize)
+        {
+            playerHandTotal += 1;
+            print("ace but too much for 11");
+        }
+        else
+        {
+            print("not ace");
+            playerHandTotal += cardCurrentVal.valueNotOnCard;
+        }
+
+
         playerHandValue.text = "Hand: " + playerHandTotal.ToString();
     }
 
@@ -134,10 +162,11 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void AI_Turn()
+    public void AI_Turn()
     {
         Hit.gameObject.SetActive(false);
         Stand.gameObject.SetActive(false);
+        DoubleDown.gameObject.SetActive(false);
     }
 
     void CheckIfBust()
