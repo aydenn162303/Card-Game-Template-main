@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         StartGame();
     }
@@ -65,23 +65,33 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        Shuffle();
+        //Shuffle();
         DealAI();
     }
     
     void DealAI()
     {
-        DealPlayer();
+        DealPlayerBegin();
     }
 
-    void DealPlayer()
+    void DealPlayerBegin()
     {
+        buttonPressDelay = 0f;
         DrawCardPlayer();
+        buttonPressDelay = 0f;
+        DrawCardPlayer();
+        DoubleDown.gameObject.SetActive(true);
+    }
+
+    public void DoubleDownPlayer()
+    {
         DrawCardPlayer();
     }
 
     public void DrawCardPlayer()
     {
+        DoubleDown.gameObject.SetActive(false);
+
         if (buttonPressDelay > 0)
         {
             return;
@@ -103,7 +113,7 @@ public class GameManager : MonoBehaviour
         GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
         int listpos = player_hand.IndexOf(card);
         RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
-        cardObject.transform.position = new Vector2(listpos * (canvasRect.rect.width / 10), 5);
+        cardObject.transform.position = new Vector2(listpos * (canvasRect.rect.width / 10), -150);
         Card_data cardCurrentVal = card.data;
         playerHandTotal += cardCurrentVal.valueNotOnCard;
         playerHandValue.text = "Hand: " + playerHandTotal.ToString();
@@ -126,7 +136,8 @@ public class GameManager : MonoBehaviour
 
     void AI_Turn()
     {
-
+        Hit.gameObject.SetActive(false);
+        Stand.gameObject.SetActive(false);
     }
 
     void CheckIfBust()
