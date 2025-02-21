@@ -733,6 +733,12 @@ MonoBehaviour:
   playerHandValue: {fileID: 1954370370}
   aiHandValue: {fileID: 1836349937}
   roundText: {fileID: 2053768661}
+  plcrown1: {fileID: 1565489629}
+  plcrown2: {fileID: 971031221}
+  plcrown3: {fileID: 745507349}
+  aicrown1: {fileID: 1436240087}
+  aicrown2: {fileID: 354580035}
+  aicrown3: {fileID: 1201488103}
   targetHandSize: 21
   playerSpecialCards: 0
   playerHandTotal: 0

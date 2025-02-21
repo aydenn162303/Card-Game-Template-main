@@ -20,8 +20,6 @@ public class GameManager : MonoBehaviour
 
     private bool isAce11 = false;
 
-
-
     public Button Hit;
     public Button Stand;
     public Button DoubleDown;
@@ -29,6 +27,14 @@ public class GameManager : MonoBehaviour
     public TMPro.TextMeshProUGUI playerHandValue;
     public TMPro.TextMeshProUGUI aiHandValue;
     public TMPro.TextMeshProUGUI roundText;
+
+    public Image plcrown1;
+    public Image plcrown2;
+    public Image plcrown3;
+
+    public Image aicrown1;
+    public Image aicrown2;
+    public Image aicrown3;
 
     public int targetHandSize = 21;
     public int playerSpecialCards = 0;
@@ -93,6 +99,9 @@ public class GameManager : MonoBehaviour
         Hit.gameObject.SetActive(true);
         Stand.gameObject.SetActive(true);
         DoubleDown.gameObject.SetActive(true);
+        playerHandValue.gameObject.SetActive(true);
+        aiHandValue.gameObject.SetActive(true);
+        roundText.gameObject.SetActive(false);
         playerHandValue.gameObject.SetActive(true);
         aiHandValue.gameObject.SetActive(true);
         roundText.gameObject.SetActive(false);
