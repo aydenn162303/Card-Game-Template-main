@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
     public Image aicrown2;
     public Image aicrown3;
 
+    public Image coverCardAI;
+
     public int targetHandSize = 21;
     public int playerSpecialCards = 0;
     public int playerHandTotal;
@@ -89,6 +91,7 @@ public class GameManager : MonoBehaviour
         if (aiGamesWon > 1) aicrown2.gameObject.SetActive(true); else aicrown2.gameObject.SetActive(false);
         if (aiGamesWon > 2) aicrown3.gameObject.SetActive(true); else aicrown3.gameObject.SetActive(false);
 
+        coverCardAI.gameObject.SetActive(false);
         Hit.gameObject.SetActive(false);
         DoubleDown.gameObject.SetActive(false);
         Stand.gameObject.SetActive(false);
@@ -105,6 +108,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         print("waiting");
 
+        coverCardAI.gameObject.SetActive(true);
+        coverCardAI.transform.SetAsLastSibling();
         Hit.gameObject.SetActive(true);
         Stand.gameObject.SetActive(true);
         DoubleDown.gameObject.SetActive(true);
@@ -154,7 +159,7 @@ public class GameManager : MonoBehaviour
 
     public void DrawCardAI()
     {
-        if (isAce11AI == true && AIHandTotal < targetHandSize)
+        if (isAce11AI == true && AIHandTotal > targetHandSize)
         {
             AIHandTotal -= 10;
             isAce11AI = false;
@@ -178,7 +183,7 @@ public class GameManager : MonoBehaviour
             buttonPressDelay = 0.5f;
         }
 
-        if (isAce11 == true && playerHandTotal < targetHandSize)
+        if (isAce11 == true && playerHandTotal > targetHandSize)
         {
             playerHandTotal -= 10;
             isAce11 = false;
