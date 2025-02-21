@@ -723,7 +723,13 @@ MonoBehaviour:
   - {fileID: 4608709814338197990, guid: 9fca5e2805c024c7caf85d2ba092b127, type: 3}
   - {fileID: 4608709814338197990, guid: fab74436d3824412ab863f35da94cb1f, type: 3}
   - {fileID: 4608709814338197990, guid: 41d3a45eda3af44f4a65a291b69915cf, type: 3}
-  special: []
+  special:
+  - {fileID: 4608709814338197990, guid: 7b8f4e6eba7334d01982bb2cd16d69ed, type: 3}
+  - {fileID: 4608709814338197990, guid: 8365d9d7b5b424cc5880e708c790ff4f, type: 3}
+  - {fileID: 4608709814338197990, guid: bafd49a3d5f3a45de885452b2ef7668c, type: 3}
+  - {fileID: 4608709814338197990, guid: 522d92f5c114c4732955dbfd94ff78cd, type: 3}
+  - {fileID: 4608709814338197990, guid: 09eb482b721cd4ae8b7390fed1c770e0, type: 3}
+  - {fileID: 4608709814338197990, guid: d7ebf6a19942446e7881be17431c1765, type: 3}
   player_hand: []
   ai_hand: []
   discard_pile: []
