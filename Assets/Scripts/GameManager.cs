@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public Button DoubleDown;
 
     public TMPro.TextMeshProUGUI playerHandValue;
+    public TMPro.TextMeshProUGUI aiHandValue;
+    public TMPro.TextMeshProUGUI roundText;
 
     public int targetHandSize = 21;
     public int playerSpecialCards = 0;
@@ -34,6 +36,8 @@ public class GameManager : MonoBehaviour
     //These will reset every game
     public int playerGamesWon = 0;
     public int aiGamesWon = 0;
+
+    public int round = 0;
 
     private void Awake()
     {
