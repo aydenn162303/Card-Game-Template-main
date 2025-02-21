@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private float buttonPressDelay = 0.5f;
 
     private bool isAce11 = false;
+    private bool isAce11AI = false;
 
     public Button Hit;
     public Button Stand;
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        StartGame();
+        StartRound();
     }
 
     // Update is called once per frame
@@ -77,9 +78,17 @@ public class GameManager : MonoBehaviour
         buttonPressDelay -= Time.deltaTime;
     }
 
-    void StartGame()
+    void StartRound()
     {
         round++;
+
+        if (playerGamesWon > 0) plcrown1.gameObject.SetActive(true); else plcrown1.gameObject.SetActive(false);
+        if (playerGamesWon > 1) plcrown2.gameObject.SetActive(true); else plcrown2.gameObject.SetActive(false);
+        if (playerGamesWon > 2) plcrown3.gameObject.SetActive(true); else plcrown3.gameObject.SetActive(false);
+        if (aiGamesWon > 0) aicrown1.gameObject.SetActive(true); else aicrown1.gameObject.SetActive(false);
+        if (aiGamesWon > 1) aicrown2.gameObject.SetActive(true); else aicrown2.gameObject.SetActive(false);
+        if (aiGamesWon > 2) aicrown3.gameObject.SetActive(true); else aicrown3.gameObject.SetActive(false);
+
         Hit.gameObject.SetActive(false);
         DoubleDown.gameObject.SetActive(false);
         Stand.gameObject.SetActive(false);
@@ -105,12 +114,19 @@ public class GameManager : MonoBehaviour
         playerHandValue.gameObject.SetActive(true);
         aiHandValue.gameObject.SetActive(true);
         roundText.gameObject.SetActive(false);
+
+        plcrown1.gameObject.SetActive(false);
+        plcrown2.gameObject.SetActive(false);
+        plcrown3.gameObject.SetActive(false);
+        aicrown1.gameObject.SetActive(false);
+        aicrown2.gameObject.SetActive(false);
+        aicrown3.gameObject.SetActive(false);
         DealAI();
     }
     
     void DealAI()
     {
-        DrawCardAI();
+        DealAIBegin();
         DealPlayerBegin();
     }
 
@@ -124,6 +140,13 @@ public class GameManager : MonoBehaviour
         DoubleDown.gameObject.SetActive(true);
     }
 
+    void DealAIBegin()
+    {
+        isAce11AI = false;
+        DrawCardAI();
+        DrawCardAI();
+    }
+
     public void DoubleDownPlayer()
     {
         DrawCardPlayer();
@@ -131,7 +154,16 @@ public class GameManager : MonoBehaviour
 
     public void DrawCardAI()
     {
-        
+        if (isAce11AI == true && AIHandTotal < targetHandSize)
+        {
+            AIHandTotal -= 10;
+            isAce11AI = false;
+        }
+
+        Card card = deck[Random.Range(0, deck.Count)];
+        ai_hand.Add(card);
+        deck.Remove(card);
+        instanceCardAI(card);
     }
     public void DrawCardPlayer()
     {
@@ -153,7 +185,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Random.seed = System.DateTime.Now.Millisecond; FIX
-        Card card = deck[Random.Range(0, 51)];
+        Card card = deck[Random.Range(0, deck.Count)];
         player_hand.Add(card);
         deck.Remove(card);
         instantiateCard(card);
@@ -189,6 +221,34 @@ public class GameManager : MonoBehaviour
         playerHandValue.text = "Hand: " + playerHandTotal.ToString();
     }
 
+    void instanceCardAI(Card card)
+    {
+        GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
+        int listpos = ai_hand.IndexOf(card);
+        RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
+        cardObject.transform.position = new Vector2(945 + ((listpos * (canvasRect.rect.width / 10)) * -1), canvasRect.rect.height - 350);
+        Card_data cardCurrentVal = card.data;
+
+        if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + 11 <= targetHandSize)
+        {
+            AIHandTotal += 11;
+            isAce11AI = true;
+            print("AI    ace value 11");
+        }
+        else if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + 11 > targetHandSize)
+        {
+            AIHandTotal += 1;
+            print("AI   ace but too much for 11");
+        }
+        else
+        {
+            print("AI   not ace");
+            AIHandTotal += cardCurrentVal.valueNotOnCard;
+        }
+
+        aiHandValue.text = "Hand: " + AIHandTotal.ToString() + " + ?";
+    }
+
 
     void DealFaceCard()
     {
@@ -218,7 +278,7 @@ public class GameManager : MonoBehaviour
             player_hand.Clear();
             ai_hand.Clear();
             discard_pile.Clear();
-            StartGame();
+            StartRound();
         }
         else if (AIHandTotal > targetHandSize)
         {
@@ -229,7 +289,7 @@ public class GameManager : MonoBehaviour
             player_hand.Clear();
             ai_hand.Clear();
             discard_pile.Clear();
-            StartGame();
+            StartRound();
         }
     }
 
