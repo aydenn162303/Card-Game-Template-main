@@ -194,31 +194,41 @@ public class GameManager : MonoBehaviour
 
     void instantiateCard(Card card)
     {
-        GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
-        int listpos = player_hand.IndexOf(card);
-        RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
-        cardObject.transform.position = new Vector2(listpos * (canvasRect.rect.width / 10), -150);
-        Card_data cardCurrentVal = card.data;
+        if (player_hand.Count <= 6)
+        {
 
-        if (cardCurrentVal.valueNotOnCard == 1 && playerHandTotal + 11 <= targetHandSize)
-        {
-            playerHandTotal += 11;
-            isAce11 = true;
-            print("ace value 11");
-        }
-        else if (cardCurrentVal.valueNotOnCard == 1 && playerHandTotal + 11 > targetHandSize)
-        {
-            playerHandTotal += 1;
-            print("ace but too much for 11");
+            GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
+            int listpos = player_hand.IndexOf(card);
+            RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
+            cardObject.transform.position = new Vector2(listpos * (canvasRect.rect.width / 10), -150);
+            Card_data cardCurrentVal = card.data;
+
+            if (cardCurrentVal.valueNotOnCard == 1 && playerHandTotal + 11 <= targetHandSize)
+            {
+                playerHandTotal += 11;
+                isAce11 = true;
+                print("ace value 11");
+            }
+            else if (cardCurrentVal.valueNotOnCard == 1 && playerHandTotal + 11 > targetHandSize)
+            {
+                playerHandTotal += 1;
+                print("ace but too much for 11");
+            }
+            else
+            {
+                print("not ace");
+                playerHandTotal += cardCurrentVal.valueNotOnCard;
+            }
+
+
+            playerHandValue.text = "Hand: " + playerHandTotal.ToString();
+
         }
         else
         {
-            print("not ace");
-            playerHandTotal += cardCurrentVal.valueNotOnCard;
+            print("Player Hand Full");
         }
 
-
-        playerHandValue.text = "Hand: " + playerHandTotal.ToString();
     }
 
     void instanceCardAI(Card card)
