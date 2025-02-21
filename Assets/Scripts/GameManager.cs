@@ -5,11 +5,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Random = UnityEngine.Random;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager gm;
     public List<Card> deck = new List<Card>();
+    public List<Card> special = new List<Card>();
     public List<Card> player_hand = new List<Card>();
     public List<Card> ai_hand = new List<Card>();
     public List<Card> discard_pile = new List<Card>();
@@ -71,12 +73,35 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        //Shuffle();
+        round++;
+        Hit.gameObject.SetActive(false);
+        DoubleDown.gameObject.SetActive(false);
+        Stand.gameObject.SetActive(false);
+        playerHandValue.gameObject.SetActive(false);
+        aiHandValue.gameObject.SetActive(false);
+        roundText.gameObject.SetActive(true);
+        roundText.text = "Round: " + round.ToString();
+
+        StartCoroutine(StartGameCoroutine());
+    }
+
+    IEnumerator StartGameCoroutine()
+    {
+        yield return new WaitForSeconds(2);
+        print("waiting");
+
+        Hit.gameObject.SetActive(true);
+        Stand.gameObject.SetActive(true);
+        DoubleDown.gameObject.SetActive(true);
+        playerHandValue.gameObject.SetActive(true);
+        aiHandValue.gameObject.SetActive(true);
+        roundText.gameObject.SetActive(false);
         DealAI();
     }
     
     void DealAI()
     {
+        DrawCardAI();
         DealPlayerBegin();
     }
 
@@ -95,6 +120,10 @@ public class GameManager : MonoBehaviour
         DrawCardPlayer();
     }
 
+    public void DrawCardAI()
+    {
+        
+    }
     public void DrawCardPlayer()
     {
         DoubleDown.gameObject.SetActive(false);
@@ -114,7 +143,7 @@ public class GameManager : MonoBehaviour
             isAce11 = false;
         }
 
-
+        //Random.seed = System.DateTime.Now.Millisecond; FIX
         Card card = deck[Random.Range(0, 51)];
         player_hand.Add(card);
         deck.Remove(card);
@@ -151,10 +180,6 @@ public class GameManager : MonoBehaviour
         playerHandValue.text = "Hand: " + playerHandTotal.ToString();
     }
 
-    void DrawCardAI()
-    {
-
-    }
 
     void DealFaceCard()
     {
