@@ -55,8 +55,11 @@ public class GameManager : MonoBehaviour
         // Check if there is already an instance of GameManager
         if (gm != null && gm != this)
         {
-            // If there is, destroy this instance
-            Destroy(gameObject);
+            // If there is, transfer variables from the existing instance to this instance and destroy the existing instance
+            TransferVariablesFromExistingDealer(gm);
+            Destroy(gm.gameObject);
+            // Make this instance persistent across scenes
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -66,6 +69,16 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             print("GameManager created");
         }
+
+    }
+
+    void TransferVariablesFromExistingDealer(GameManager existingDealer)
+    {
+        this.targetHandSize = existingDealer.targetHandSize;
+        this.playerSpecialCards = existingDealer.playerSpecialCards;
+        this.round = existingDealer.round;
+        this.playerGamesWon = existingDealer.playerGamesWon;
+        this.aiGamesWon = existingDealer.aiGamesWon;
     }
 
     // Start is called before the first frame update
@@ -168,7 +181,7 @@ public class GameManager : MonoBehaviour
         Card card = deck[Random.Range(0, deck.Count)];
         ai_hand.Add(card);
         deck.Remove(card);
-        instanceCardAI(card);
+        InstantiateCardAI(card);
     }
     public void DrawCardPlayer()
     {
@@ -189,7 +202,7 @@ public class GameManager : MonoBehaviour
             isAce11 = false;
         }
 
-        //Random.seed = System.DateTime.Now.Millisecond; FIX
+        Random.InitState(System.DateTime.Now.Millisecond);
         Card card = deck[Random.Range(0, deck.Count)];
         player_hand.Add(card);
         deck.Remove(card);
@@ -199,6 +212,7 @@ public class GameManager : MonoBehaviour
 
     void instantiateCard(Card card)
     {
+        CheckIfBust();
         if (player_hand.Count <= 6)
         {
 
@@ -236,7 +250,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void instanceCardAI(Card card)
+    void InstantiateCardAI(Card card)
     {
         GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
         int listpos = ai_hand.IndexOf(card);
@@ -290,21 +304,12 @@ public class GameManager : MonoBehaviour
             aiGamesWon++;
             playerHandTotal = 0;
             AIHandTotal = 0;
-            player_hand.Clear();
             ai_hand.Clear();
-            discard_pile.Clear();
-            StartRound();
-        }
-        else if (AIHandTotal > targetHandSize)
-        {
-            print("AI Bust");
-            playerGamesWon++;
-            playerHandTotal = 0;
-            AIHandTotal = 0;
             player_hand.Clear();
-            ai_hand.Clear();
             discard_pile.Clear();
-            StartRound();
+            LoadNewScene("!Menu");
+            LoadNewScene("InGame");
+
         }
     }
 
