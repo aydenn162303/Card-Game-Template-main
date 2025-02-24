@@ -52,14 +52,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Check if there is already an instance of GameManager
-        if (gm != null && gm != this)
+        GameObject dealerObj = GameObject.Find("DealerOld");
+        if (dealerObj != null)
         {
-            // If there is, transfer variables from the existing instance to this instance and destroy the existing instance
+            gm = dealerObj.GetComponent<GameManager>();
             TransferVariablesFromExistingDealer(gm);
-            Destroy(gm.gameObject);
+            Destroy(dealerObj);
             // Make this instance persistent across scenes
             DontDestroyOnLoad(gameObject);
+            print("Old Dealer deleted");
         }
         else
         {
@@ -316,5 +317,6 @@ public class GameManager : MonoBehaviour
     public void LoadNewScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+        this.gameObject.name = "DealerOld";
     }
 }
