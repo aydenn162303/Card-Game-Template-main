@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public int aiGamesWon = 0;
 
     public int round = 0;
+    
 
     private void Awake()
     {
@@ -162,6 +163,7 @@ public class GameManager : MonoBehaviour
     void DealAIBegin()
     {
         isAce11AI = false;
+
         DrawCardAI();
         DrawCardAI();
     }
@@ -305,6 +307,23 @@ public class GameManager : MonoBehaviour
         if (playerHandTotal > targetHandSize)
         {
             print("Player Bust");
+            StartCoroutine(HandleBust());
+        }
+
+        if (AIHandTotal > targetHandSize)
+        {
+            //stuff
+        }
+    }
+
+    IEnumerator HandleBust()
+        {
+            roundText.gameObject.SetActive(true);
+            roundText.text = "Bust!";
+            Hit.gameObject.SetActive(false);
+            Stand.gameObject.SetActive(false);
+            DoubleDown.gameObject.SetActive(false);
+            yield return new WaitForSeconds(2);
             aiGamesWon++;
             playerHandTotal = 0;
             AIHandTotal = 0;
@@ -313,14 +332,7 @@ public class GameManager : MonoBehaviour
             discard_pile.Clear();
             LoadNewScene("!Menu");
             LoadNewScene("InGame");
-
         }
-
-        if (AIHandTotal > targetHandSize)
-        {
-            //stuff
-        }
-    }
 
     public void LoadNewScene(string sceneName)
     {

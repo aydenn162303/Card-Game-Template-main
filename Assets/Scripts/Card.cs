@@ -28,6 +28,17 @@ public class Card : MonoBehaviour
     void Start()
     {
         Dealer = GameObject.FindWithTag("GameManager");
+        if (data != null)
+        {
+            LoadCardData(data);
+        }
+    }
+
+        //listpos = Dealer.GetComponent<GameManager>().player_hand.IndexOf(this.gameObject.GetComponent<Card>());
+        //gameObject.transform.position = new Vector2(listpos * 100, + 5);
+   
+    void LoadCardData(Card_data data)
+    {
         card_name = data.card_name;
         description = data.description;
         valueOnCard = data.valueOnCard;
@@ -40,22 +51,31 @@ public class Card : MonoBehaviour
         BottomLeft.text = valueOnCard;
         BottomRight.text = valueOnCard;
         spriteImage.sprite = sprite;
-
-
-        //listpos = Dealer.GetComponent<GameManager>().player_hand.IndexOf(this.gameObject.GetComponent<Card>());
-        //gameObject.transform.position = new Vector2(listpos * 100, + 5);
     }
 
+
     // Update is called once per frame
+    private bool isMoving = false;
+    
     void Update()
     {
-        if (this.gameObject.transform.position.y < 8)
+        if (this.gameObject.transform.position.y < 8 && !isMoving)
+        {
+            StartCoroutine(MoveCard());
+        }
+    }
+    
+    IEnumerator MoveCard()
+    {
+        isMoving = true;
+        while (this.gameObject.transform.position.y < 8)
         {
             float x = this.gameObject.transform.position.x;
             float y = this.gameObject.transform.position.y;
-            this.gameObject.transform.position = new Vector2(x, y + 0.5f);
-            Delay(0.1f);
+            this.gameObject.transform.position = new Vector2(x, y + 3f);
+            yield return new WaitForSeconds(0.01f);
         }
+        isMoving = false;
     }
 
 
