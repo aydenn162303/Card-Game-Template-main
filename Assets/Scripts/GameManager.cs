@@ -300,6 +300,8 @@ public class GameManager : MonoBehaviour
         Hit.gameObject.SetActive(false);
         Stand.gameObject.SetActive(false);
         DoubleDown.gameObject.SetActive(false);
+        WaitForSeconds(0.5f);
+
     }
 
     void CheckIfBust()
@@ -338,5 +340,9 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
         this.gameObject.name = "DealerOld";
+    }
+    public IEnumerator WaitForSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 }
