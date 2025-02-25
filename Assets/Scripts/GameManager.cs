@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
         {
             print("Player Hand Full");
         }
-        CheckIfBust(); //DOUBLE CHECK TO SEE IF ACE IS WORTH 1 AND NO BUST!!
+        CheckIfBust(); //DOUBLE CHECK TO SEE IF ACE IS WORTH 1 AND NO BUST!!  
     }
 
     void InstantiateCardAI(Card card)
