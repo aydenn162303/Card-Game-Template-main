@@ -248,7 +248,10 @@ public class GameManager : MonoBehaviour
         {
             print("Player Hand Full");
         }
+        print("checkifbust is about to run");
         CheckIfBust(); //DOUBLE CHECK TO SEE IF ACE IS WORTH 1 AND NO BUST!!  
+        print("checkifbust has ran");
+
     }
 
     void InstantiateCardAI(Card card)
@@ -311,6 +314,11 @@ public class GameManager : MonoBehaviour
             LoadNewScene("!Menu");
             LoadNewScene("InGame");
 
+        }
+
+        if (AIHandTotal > targetHandSize)
+        {
+            //stuff
         }
     }
 
