@@ -826,6 +826,7 @@ MonoBehaviour:
   playerHandTotal: 0
   AIHandTotal: 0
   AIHandTotalHidden: 0
+  AddedAIHandTotal: 0
   aiSpecialCards: 0
   playerGamesWon: 0
   aiGamesWon: 0
@@ -1006,7 +1007,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 622756965}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: AI_Turn
+        m_MethodName: StandButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

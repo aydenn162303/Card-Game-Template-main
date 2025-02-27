@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     public int round = 0;
     public bool hiddenCard = false; //sets true once just to check if hidden bool should be changed in a card to make it appear offscreen until the ai's turn.
+    public bool AICanDraw = false;
     
 
     private void Awake()
@@ -93,6 +94,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartRound();
+        AICanDraw = false;
     }
 
     // Update is called once per frame
@@ -202,6 +204,7 @@ public class GameManager : MonoBehaviour
         {
             InstantiateCardAI(card);
         }
+        if (AICanDraw) { StartCoroutine(AITurn()); }
     }
     public void DrawCardPlayer()
     {
@@ -300,6 +303,7 @@ public class GameManager : MonoBehaviour
         }
 
         aiHandValue.text = "Hand: " + AIHandTotal.ToString() + " + ?";
+
     }
 
     void DealHiddenCardAI(Card card) //allows drawing exclusively from here as an alternate gamemode (so that the player cannot see what is drawn as a challenge)
@@ -326,6 +330,8 @@ public class GameManager : MonoBehaviour
             print("HIDDEN NON ACE");
             AIHandTotalHidden += cardCurrentVal.valueNotOnCard;
         }
+        
+ 
     }
 
 
@@ -339,13 +345,73 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void AI_Turn()
+    public void StandButton()
     {
+        StartCoroutine(AITurn());
+    }
+
+    public IEnumerator AITurn()
+    {
+        print("AI Turn begin");
         Hit.gameObject.SetActive(false);
         Stand.gameObject.SetActive(false);
         DoubleDown.gameObject.SetActive(false);
-        WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2);
 
+        //What the Ai chooses to do is here, for now it will just draw until it hits 16 or more.
+
+        if (AIHandTotal + AIHandTotalHidden <= 16 || (AddedAIHandTotal < playerHandTotal && playerHandTotal <= targetHandSize))
+        {
+            DrawCardAI();
+        }
+        else
+        {
+            StartCoroutine(RoundEnd());
+        }
+
+    }
+
+    IEnumerator RoundEnd()
+    {
+        CheckIfBust();
+        print("Round End");
+        //double check this works right
+        if (playerHandTotal > AddedAIHandTotal && playerHandTotal <= targetHandSize || AddedAIHandTotal > targetHandSize)
+        {
+            print("Player Wins");
+            roundText.gameObject.SetActive(true);
+            roundText.text = "Player Wins!";
+            playerGamesWon++;
+        }
+        else if (playerHandTotal < AddedAIHandTotal && AddedAIHandTotal <= targetHandSize || playerHandTotal > targetHandSize)
+        {
+            print("AI Wins");
+            roundText.gameObject.SetActive(true);
+            roundText.text = "AI Wins!";
+            aiGamesWon++;
+        }
+        else if (playerHandTotal == AddedAIHandTotal)
+        {
+            print("Draw");
+            roundText.gameObject.SetActive(true);
+            roundText.text = "Draw!";
+        }
+        else
+        {
+            print("Draw");
+            roundText.gameObject.SetActive(true);
+            roundText.text = "Unknown Error!";
+        }
+
+        yield return StartCoroutine(WaitForSeconds(2));
+        playerHandTotal = 0;
+        AIHandTotal = 0;
+        AIHandTotalHidden = 0;
+        ai_hand.Clear();
+        player_hand.Clear();
+        discard_pile.Clear();
+        LoadNewScene("!Menu");
+        LoadNewScene("InGame");
     }
 
     void CheckIfBust()
