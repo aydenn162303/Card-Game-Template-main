@@ -7,6 +7,9 @@ using TMPro;
 using Random = UnityEngine.Random;
 using System;
 
+
+//IMPORTANT: THERE MIGHT BE ERRORS WITH AI DRAWING ACES BETWEEN AI HIDDEN HAND TOTAL AND NORMAL HAND TOTAL, MAYBE NOT BUT MAKE SURE.
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager gm;
@@ -41,14 +44,17 @@ public class GameManager : MonoBehaviour
 
     public int targetHandSize = 21;
     public int playerSpecialCards = 0;
-    public int playerHandTotal;
-    public int AIHandTotal;
+    public int playerHandTotal = 0;
+    public int AIHandTotal = 0;
+    public int AIHandTotalHidden = 0; //both are added, this is just for hidden cards to store their values.
+    public int AddedAIHandTotal = 0;
     public int aiSpecialCards = 0;
     //These will reset every game
     public int playerGamesWon = 0;
     public int aiGamesWon = 0;
 
     public int round = 0;
+    public bool hiddenCard = false; //sets true once just to check if hidden bool should be changed in a card to make it appear offscreen until the ai's turn.
     
 
     private void Awake()
@@ -93,6 +99,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         buttonPressDelay -= Time.deltaTime;
+        AddedAIHandTotal = AIHandTotal + AIHandTotalHidden;
     }
 
     void StartRound()
@@ -163,8 +170,9 @@ public class GameManager : MonoBehaviour
     void DealAIBegin()
     {
         isAce11AI = false;
-
+        hiddenCard = true;
         DrawCardAI();
+        hiddenCard = false;
         DrawCardAI();
     }
 
@@ -175,16 +183,25 @@ public class GameManager : MonoBehaviour
 
     public void DrawCardAI()
     {
-        if (isAce11AI == true && AIHandTotal > targetHandSize)
+        if (isAce11AI == true && AIHandTotal + AIHandTotalHidden > targetHandSize)
         {
             AIHandTotal -= 10;
             isAce11AI = false;
         }
 
+
         Card card = deck[Random.Range(0, deck.Count)];
         ai_hand.Add(card);
         deck.Remove(card);
-        InstantiateCardAI(card);
+        if (hiddenCard == true)
+        {
+            DealHiddenCardAI(card);
+            hiddenCard = false;
+        }
+        else
+        {
+            InstantiateCardAI(card);
+        }
     }
     public void DrawCardPlayer()
     {
@@ -258,19 +275,20 @@ public class GameManager : MonoBehaviour
 
     void InstantiateCardAI(Card card)
     {
+
         GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
         int listpos = ai_hand.IndexOf(card);
         RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
         cardObject.transform.position = new Vector2(945 + ((listpos * (canvasRect.rect.width / 10)) * -1), canvasRect.rect.height - 350);
         Card_data cardCurrentVal = card.data;
 
-        if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + 11 <= targetHandSize)
+        if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + AIHandTotalHidden + 11 <= targetHandSize)
         {
             AIHandTotal += 11;
             isAce11AI = true;
             print("AI    ace value 11");
         }
-        else if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + 11 > targetHandSize)
+        else if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + AIHandTotalHidden + 11 > targetHandSize)
         {
             AIHandTotal += 1;
             print("AI   ace but too much for 11");
@@ -282,6 +300,32 @@ public class GameManager : MonoBehaviour
         }
 
         aiHandValue.text = "Hand: " + AIHandTotal.ToString() + " + ?";
+    }
+
+    void DealHiddenCardAI(Card card) //allows drawing exclusively from here as an alternate gamemode (so that the player cannot see what is drawn as a challenge)
+    {
+        GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
+        int listpos = ai_hand.IndexOf(card);
+        RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
+        cardObject.transform.position = new Vector2(945 + ((listpos * (canvasRect.rect.width / 10)) * -1), canvasRect.rect.height - 350);
+        Card_data cardCurrentVal = card.data;
+
+        if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + AIHandTotalHidden + 11 <= targetHandSize)
+        {
+            AIHandTotalHidden += 11;
+            isAce11AI = true;
+            print("HIDDEN ACE VALUE 11");
+        }
+        else if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + AIHandTotalHidden + 11 > targetHandSize)
+        {
+            AIHandTotalHidden += 1;
+            print("HIDDEN ACE VALUE 1");
+        }
+        else
+        {
+            print("HIDDEN NON ACE");
+            AIHandTotalHidden += cardCurrentVal.valueNotOnCard;
+        }
     }
 
 
@@ -309,26 +353,38 @@ public class GameManager : MonoBehaviour
         if (playerHandTotal > targetHandSize)
         {
             print("Player Bust");
-            StartCoroutine(HandleBust());
+            StartCoroutine(HandleBust("Player"));
         }
 
         if (AIHandTotal > targetHandSize)
         {
+            print("AI Bust");
+            StartCoroutine(HandleBust("AI"));
             //stuff
         }
     }
 
-    IEnumerator HandleBust()
+    public void ButtonDrawAI()
+    {
+        DrawCardAI();
+    }
+
+    IEnumerator HandleBust(string who_busted)
         {
             roundText.gameObject.SetActive(true);
-            roundText.text = "Bust!";
+
+            if (who_busted == "Player") { roundText.text = "Bust!"; } else { roundText.text = "AI Bust!"; }
+
             Hit.gameObject.SetActive(false);
             Stand.gameObject.SetActive(false);
             DoubleDown.gameObject.SetActive(false);
             yield return new WaitForSeconds(2);
-            aiGamesWon++;
+
+            if (who_busted == "Player") { aiGamesWon++; } else { playerGamesWon++; }
+
             playerHandTotal = 0;
             AIHandTotal = 0;
+            AIHandTotalHidden = 0;
             ai_hand.Clear();
             player_hand.Clear();
             discard_pile.Clear();
