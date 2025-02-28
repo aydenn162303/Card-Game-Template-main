@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
             Destroy(dealerObj);
             // Make this instance persistent across scenes
             DontDestroyOnLoad(gameObject);
-            print("Old Dealer deleted");
+            //print("Old Dealer deleted");
         }
         else
         {
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             gm = this;
             // Make this instance persistent across scenes
             DontDestroyOnLoad(gameObject);
-            print("GameManager created");
+            //print("GameManager created");
         }
 
     }
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
     IEnumerator StartGameCoroutine()
     {
         yield return new WaitForSeconds(2);
-        print("waiting");
+        //print("waiting");
 
         coverCardAI.gameObject.SetActive(true);
         coverCardAI.transform.SetAsLastSibling();
@@ -185,6 +185,7 @@ public class GameManager : MonoBehaviour
 
     public void DrawCardAI()
     {
+        print("DrawCardAI called");
         if (isAce11AI == true && AIHandTotal + AIHandTotalHidden > targetHandSize)
         {
             AIHandTotal -= 10;
@@ -206,6 +207,7 @@ public class GameManager : MonoBehaviour
         }
         if (AICanDraw) { StartCoroutine(AITurn()); }
     }
+
     public void DrawCardPlayer()
     {
         DoubleDown.gameObject.SetActive(false);
@@ -249,16 +251,16 @@ public class GameManager : MonoBehaviour
             {
                 playerHandTotal += 11;
                 isAce11 = true;
-                print("ace value 11");
+
             }
             else if (cardCurrentVal.valueNotOnCard == 1 && playerHandTotal + 11 > targetHandSize)
             {
                 playerHandTotal += 1;
-                print("ace but too much for 11");
+
             }
             else
             {
-                print("not ace");
+
                 playerHandTotal += cardCurrentVal.valueNotOnCard;
             }
 
@@ -270,15 +272,15 @@ public class GameManager : MonoBehaviour
         {
             print("Player Hand Full");
         }
-        print("checkifbust is about to run");
+
         CheckIfBust(); //DOUBLE CHECK TO SEE IF ACE IS WORTH 1 AND NO BUST!!  
-        print("checkifbust has ran");
+
 
     }
 
     void InstantiateCardAI(Card card)
     {
-
+        print("InstantiateCardAI called");
         GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
         int listpos = ai_hand.IndexOf(card);
         RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
@@ -289,16 +291,16 @@ public class GameManager : MonoBehaviour
         {
             AIHandTotal += 11;
             isAce11AI = true;
-            print("AI    ace value 11");
+            //print("AI    ace value 11");
         }
         else if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + AIHandTotalHidden + 11 > targetHandSize)
         {
             AIHandTotal += 1;
-            print("AI   ace but too much for 11");
+            //print("AI   ace but too much for 11");
         }
         else
         {
-            print("AI   not ace");
+            //print("AI   not ace");
             AIHandTotal += cardCurrentVal.valueNotOnCard;
         }
 
@@ -318,16 +320,16 @@ public class GameManager : MonoBehaviour
         {
             AIHandTotalHidden += 11;
             isAce11AI = true;
-            print("HIDDEN ACE VALUE 11");
+            //print("HIDDEN ACE VALUE 11");
         }
         else if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + AIHandTotalHidden + 11 > targetHandSize)
         {
             AIHandTotalHidden += 1;
-            print("HIDDEN ACE VALUE 1");
+            //print("HIDDEN ACE VALUE 1");
         }
         else
         {
-            print("HIDDEN NON ACE");
+            //print("HIDDEN NON ACE");
             AIHandTotalHidden += cardCurrentVal.valueNotOnCard;
         }
         
@@ -359,49 +361,59 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         //What the Ai chooses to do is here, for now it will just draw until it hits 16 or more.
-
-        if (AIHandTotal + AIHandTotalHidden <= 16 || (AddedAIHandTotal < playerHandTotal && playerHandTotal <= targetHandSize))
+        AddedAIHandTotal = AIHandTotal + AIHandTotalHidden; //make sure this value is correct
+        if (AIHandTotal + AIHandTotalHidden <= 16 || AddedAIHandTotal < playerHandTotal && playerHandTotal <= targetHandSize)
         {
+            AICanDraw = true;
             DrawCardAI();
+            print("AI Draw");
         }
         else
         {
+            AICanDraw = false;
             StartCoroutine(RoundEnd());
+            print("AI Stand");
         }
 
     }
 
     IEnumerator RoundEnd()
     {
+        Stand.gameObject.SetActive(false);
+        Hit.gameObject.SetActive(false);
+        DoubleDown.gameObject.SetActive(false);
+        playerHandValue.gameObject.SetActive(false);
+        aiHandValue.gameObject.SetActive(false);
+        roundText.gameObject.SetActive(true);
+
         CheckIfBust();
+
         print("Round End");
         //double check this works right
         if (playerHandTotal > AddedAIHandTotal && playerHandTotal <= targetHandSize || AddedAIHandTotal > targetHandSize)
         {
-            print("Player Wins");
-            roundText.gameObject.SetActive(true);
             roundText.text = "Player Wins!";
             playerGamesWon++;
         }
         else if (playerHandTotal < AddedAIHandTotal && AddedAIHandTotal <= targetHandSize || playerHandTotal > targetHandSize)
         {
-            print("AI Wins");
-            roundText.gameObject.SetActive(true);
             roundText.text = "AI Wins!";
             aiGamesWon++;
         }
         else if (playerHandTotal == AddedAIHandTotal)
         {
-            print("Draw");
-            roundText.gameObject.SetActive(true);
             roundText.text = "Draw!";
         }
         else
         {
-            print("Draw");
             roundText.gameObject.SetActive(true);
             roundText.text = "Unknown Error!";
         }
+
+       // foreach (Card card in player_hand)
+        //{
+            //print(card.data.value.ToString());
+        //}
 
         yield return StartCoroutine(WaitForSeconds(2));
         playerHandTotal = 0;
@@ -428,11 +440,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(HandleBust("AI"));
             //stuff
         }
-    }
-
-    public void ButtonDrawAI()
-    {
-        DrawCardAI();
     }
 
     IEnumerator HandleBust(string who_busted)
