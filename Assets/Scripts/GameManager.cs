@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public List<Card> special = new List<Card>();
     public List<Card> player_hand = new List<Card>();
     public List<Card> ai_hand = new List<Card>();
+    public List<Card> ai_hidden_cards = new List<Card>();
+
     public List<Card> discard_pile = new List<Card>();
 
     private float buttonPressDelay = 0.5f;
@@ -194,18 +196,23 @@ public class GameManager : MonoBehaviour
 
 
         Card card = deck[Random.Range(0, deck.Count)];
-        ai_hand.Add(card);
-        deck.Remove(card);
+        
+        
         if (hiddenCard == true)
         {
             DealHiddenCardAI(card);
             hiddenCard = false;
+            ai_hidden_cards.Add(card);
         }
         else
         {
             InstantiateCardAI(card);
+            ai_hand.Add(card);
         }
+
+        deck.Remove(card);
         if (AICanDraw) { StartCoroutine(AITurn()); }
+        
     }
 
     public void DrawCardPlayer()
@@ -313,8 +320,10 @@ public class GameManager : MonoBehaviour
         GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
         int listpos = ai_hand.IndexOf(card);
         RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
+        cardObject.GetComponent<Card>().hidden = true;
         cardObject.transform.position = new Vector2(945 + ((listpos * (canvasRect.rect.width / 10)) * -1), canvasRect.rect.height - 350);
         Card_data cardCurrentVal = card.data;
+        
 
         if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + AIHandTotalHidden + 11 <= targetHandSize)
         {
@@ -362,7 +371,7 @@ public class GameManager : MonoBehaviour
 
         //What the Ai chooses to do is here, for now it will just draw until it hits 16 or more.
         AddedAIHandTotal = AIHandTotal + AIHandTotalHidden; //make sure this value is correct
-        if (AIHandTotal + AIHandTotalHidden <= 16 || AddedAIHandTotal < playerHandTotal && playerHandTotal <= targetHandSize)
+        if (AddedAIHandTotal <= targetHandSize - 5 || AddedAIHandTotal < playerHandTotal && playerHandTotal <= targetHandSize)
         {
             AICanDraw = true;
             DrawCardAI();
@@ -420,6 +429,7 @@ public class GameManager : MonoBehaviour
         AIHandTotal = 0;
         AIHandTotalHidden = 0;
         ai_hand.Clear();
+        ai_hidden_cards.Clear();
         player_hand.Clear();
         discard_pile.Clear();
         LoadNewScene("!Menu");
@@ -459,6 +469,7 @@ public class GameManager : MonoBehaviour
             AIHandTotal = 0;
             AIHandTotalHidden = 0;
             ai_hand.Clear();
+            ai_hidden_cards.Clear();
             player_hand.Clear();
             discard_pile.Clear();
             LoadNewScene("!Menu");

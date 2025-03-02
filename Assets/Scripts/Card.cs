@@ -22,6 +22,7 @@ public class Card : MonoBehaviour
     public string valueOnCard = "none";
     public int valueNotOnCard = 9; //this will not stay 9
     private GameObject Dealer;
+    public bool hidden = false; // add stuff to hide if it is true
         
 
     // Start is called before the first frame update
