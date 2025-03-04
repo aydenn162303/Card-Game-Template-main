@@ -338,9 +338,10 @@ public class GameManager : MonoBehaviour
     {
         print("InstantiateCardAI called");
         GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
-        int listpos = ai_hand.IndexOf(card);
+        int listpos = ai_hand.Count;
+        int lengthofhidden = ai_hidden_cards.Count;
         RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
-        cardObject.transform.position = new Vector2(945 + ((listpos * (canvasRect.rect.width / 10)) * -1), canvasRect.rect.height - 350);
+        cardObject.transform.position = new Vector2(945 + (((listpos + lengthofhidden) * (canvasRect.rect.width / 10)) * -1), canvasRect.rect.height - 350);
         Card_data cardCurrentVal = card.data;
 
         if (cardCurrentVal.valueNotOnCard == 1 && AIHandTotal + AIHandTotalHidden + 11 <= targetHandSize)
@@ -367,10 +368,11 @@ public class GameManager : MonoBehaviour
     void DealHiddenCardAI(Card card) //allows drawing exclusively from here as an alternate gamemode (so that the player cannot see what is drawn as a challenge)
     {
         GameObject cardObject = Instantiate(card.gameObject, GameObject.Find("Canvas").transform);
-        int listpos = ai_hand.IndexOf(card);
+        int listpos = ai_hidden_cards.Count;
+        int shownlistpos = ai_hand.Count;
         RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
         cardObject.GetComponent<Card>().hidden = true;
-        cardObject.transform.position = new Vector2(945 + ((listpos * (canvasRect.rect.width / 10)) * -1), canvasRect.rect.height - 350);
+        cardObject.transform.position = new Vector2(945 + (((listpos + shownlistpos) * (canvasRect.rect.width / 10)) * -1), canvasRect.rect.height - 350);
         print("Hidden Card Delt");
         Card_data cardCurrentVal = card.data;
         
