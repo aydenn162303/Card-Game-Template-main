@@ -1047,6 +1047,11 @@ MonoBehaviour:
   Hit: {fileID: 1966453001}
   Stand: {fileID: 781094499}
   DoubleDown: {fileID: 54110924}
+  five: {fileID: 1294023646}
+  twentyfive: {fileID: 501453019}
+  fifty: {fileID: 604299190}
+  oneHundred: {fileID: 1018807861}
+  fiveHundred: {fileID: 1334634081}
   playerHandValue: {fileID: 1954370370}
   aiHandValue: {fileID: 1836349937}
   roundText: {fileID: 2053768661}
@@ -1057,12 +1062,13 @@ MonoBehaviour:
   aicrown2: {fileID: 354580035}
   aicrown3: {fileID: 1201488103}
   coverCardAI: {fileID: 412791767}
+  Money: 200
   targetHandSize: 21
   playerSpecialCards: 0
   playerHandTotal: 0
+  AddedAIHandTotal: 0
   AIHandTotal: 0
   AIHandTotalHidden: 0
-  AddedAIHandTotal: 0
   aiSpecialCards: 0
   playerGamesWon: 0
   aiGamesWon: 0

@@ -30,6 +30,11 @@ public class GameManager : MonoBehaviour
     public Button Hit;
     public Button Stand;
     public Button DoubleDown;
+    public Button five;
+    public Button twentyfive;
+    public Button fifty;
+    public Button oneHundred;
+    public Button fiveHundred;
 
     public TMPro.TextMeshProUGUI playerHandValue;
     public TMPro.TextMeshProUGUI aiHandValue;
@@ -45,12 +50,13 @@ public class GameManager : MonoBehaviour
 
     public Image coverCardAI;
 
+    public int Money = 200;
     public int targetHandSize = 21;
     public int playerSpecialCards = 0;
     public int playerHandTotal = 0;
+    public int AddedAIHandTotal = 0;
     public int AIHandTotal = 0;
     public int AIHandTotalHidden = 0; //both are added, this is just for hidden cards to store their values.
-    public int AddedAIHandTotal = 0;
     public int aiSpecialCards = 0;
     //These will reset every game
     public int playerGamesWon = 0;
