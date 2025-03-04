@@ -354,23 +354,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void CheckAceValues()
-    {
-        if (isAce11 == true && playerHandTotal > targetHandSize)
-        {
-            playerHandTotal -= 10;
-            isAce11AI = false;
-        }
-
-        if (isAce11AI == true && AIHandTotal + AIHandTotalHidden > targetHandSize)
-        {
-            AIHandTotal -= 10;
-            isAce11AI = false;
-        }
-
-        
-    }
-
     public void StandButton()
     {
         StartCoroutine(AITurn());
@@ -453,7 +436,21 @@ public class GameManager : MonoBehaviour
 
     void CheckIfBust()
     {
-        CheckAceValues();
+
+        if (isAce11 == true && playerHandTotal > targetHandSize)
+        {
+            playerHandTotal -= 10;
+            isAce11AI = false;
+        }
+
+        if (isAce11AI == true && AIHandTotal + AIHandTotalHidden > targetHandSize)
+        {
+            AIHandTotal -= 10;
+            isAce11AI = false;
+        }
+
+        playerHandValue.text = "Hand: " + playerHandTotal.ToString();
+
         if (playerHandTotal > targetHandSize)
         {
             print("Player Bust");
