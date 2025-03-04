@@ -324,6 +324,7 @@ public class GameManager : MonoBehaviour
         RectTransform canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
         cardObject.GetComponent<Card>().hidden = true;
         cardObject.transform.position = new Vector2(945 + ((listpos * (canvasRect.rect.width / 10)) * -1), canvasRect.rect.height - 350);
+        print("Hidden Card Delt");
         Card_data cardCurrentVal = card.data;
         
 
@@ -353,8 +354,20 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void Shuffle()
+    void CheckAceValues()
     {
+        if (isAce11 == true && playerHandTotal > targetHandSize)
+        {
+            playerHandTotal -= 10;
+            isAce11AI = false;
+        }
+
+        if (isAce11AI == true && AIHandTotal + AIHandTotalHidden > targetHandSize)
+        {
+            AIHandTotal -= 10;
+            isAce11AI = false;
+        }
+
         
     }
 
@@ -440,6 +453,7 @@ public class GameManager : MonoBehaviour
 
     void CheckIfBust()
     {
+        CheckAceValues();
         if (playerHandTotal > targetHandSize)
         {
             print("Player Bust");
