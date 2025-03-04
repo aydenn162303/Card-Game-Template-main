@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     public Image coverCardAI;
 
     public int Money = 200;
+    public int BetValue = 0;
     public int targetHandSize = 21;
     public int playerSpecialCards = 0;
     public int playerHandTotal = 0;
@@ -97,6 +98,7 @@ public class GameManager : MonoBehaviour
         this.round = existingDealer.round;
         this.playerGamesWon = existingDealer.playerGamesWon;
         this.aiGamesWon = existingDealer.aiGamesWon;
+        this.Money = existingDealer.Money;
     }
 
 
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour
         aicrown2.gameObject.SetActive(false);
         aicrown3.gameObject.SetActive(false);
         coverCardAI.gameObject.SetActive(false);
-        StartRound(); //REMOVE THIS WHEN BUTTONS WORK
+        //StartRound(); //REMOVE THIS WHEN BUTTONS WORK
         AICanDraw = false;
 
     }
@@ -128,6 +130,20 @@ public class GameManager : MonoBehaviour
 
         //ADD CODE TO WAIT UNTIL BETTING IS OVER TO STAET THE GAME
     }
+
+    public void addToBet(int value)
+    {
+        if (value != 1) { BetValue += value; } else { BetValue = 0; }
+    }
+
+
+    public void FinishedBetting()
+    {
+        //code for removing money and stuff
+        StartRound();
+    }
+
+
 
     void StartRound()
     {
