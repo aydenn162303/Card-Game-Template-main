@@ -117,6 +117,11 @@ public class GameManager : MonoBehaviour
         aicrown2.gameObject.SetActive(false);
         aicrown3.gameObject.SetActive(false);
         coverCardAI.gameObject.SetActive(false);
+        five.gameObject.SetActive(true);
+        twentyfive.gameObject.SetActive(true);
+        fifty.gameObject.SetActive(true);
+        oneHundred.gameObject.SetActive(true);
+        fiveHundred.gameObject.SetActive(true);
         //StartRound(); //REMOVE THIS WHEN BUTTONS WORK
         AICanDraw = false;
 
@@ -139,6 +144,11 @@ public class GameManager : MonoBehaviour
 
     public void FinishedBetting()
     {
+        five.gameObject.SetActive(false);
+        twentyfive.gameObject.SetActive(false);
+        fifty.gameObject.SetActive(false);
+        oneHundred.gameObject.SetActive(false);
+        fiveHundred.gameObject.SetActive(false);
         //code for removing money and stuff
         StartRound();
     }
