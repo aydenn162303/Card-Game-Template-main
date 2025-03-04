@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Random = UnityEngine.Random;
 using System;
+using Mono.Cecil.Cil;
 
 
 //IMPORTANT: THERE MIGHT BE ERRORS WITH AI DRAWING ACES BETWEEN AI HIDDEN HAND TOTAL AND NORMAL HAND TOTAL, MAYBE NOT BUT MAKE SURE.
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager gm;
     public List<Card> deck = new List<Card>();
-    public List<Card> special = new List<Card>();
+    public Card[] specialDeck;
     public List<Card> player_hand = new List<Card>();
     public List<Card> ai_hand = new List<Card>();
     public List<Card> ai_hidden_cards = new List<Card>();
@@ -97,6 +98,7 @@ public class GameManager : MonoBehaviour
     {
         StartRound();
         AICanDraw = false;
+
     }
 
     // Update is called once per frame
