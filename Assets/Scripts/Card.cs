@@ -69,6 +69,7 @@ public class Card : MonoBehaviour
     IEnumerator MoveCard()
     {
         isMoving = true;
+
         while (this.gameObject.transform.position.y < 8)
         {
             float x = this.gameObject.transform.position.x;
