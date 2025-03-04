@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card_name: ' '
   description: ' '
-  valueOnCard: 3
-  valueNotOnCard: 3
+  valueOnCard: 6
+  valueNotOnCard: 6
   sprite: {fileID: -1497225526971461297, guid: 37b1f8ff2aa934fd5b954b4681b6bf6b, type: 3}
