@@ -637,7 +637,7 @@ GameObject:
   - component: {fileID: 501453020}
   - component: {fileID: 501453019}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: 25
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -849,7 +849,7 @@ GameObject:
   - component: {fileID: 604299191}
   - component: {fileID: 604299190}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: 50
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1516,7 +1516,7 @@ GameObject:
   - component: {fileID: 1018807862}
   - component: {fileID: 1018807861}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: 100
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1779,7 +1779,7 @@ GameObject:
   - component: {fileID: 1294023647}
   - component: {fileID: 1294023646}
   m_Layer: 5
-  m_Name: Button
+  m_Name: 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2035,7 +2035,7 @@ GameObject:
   - component: {fileID: 1334634082}
   - component: {fileID: 1334634081}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: 500
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2155,7 +2155,7 @@ GameObject:
   - component: {fileID: 1419358277}
   - component: {fileID: 1419358276}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Finish Betting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
