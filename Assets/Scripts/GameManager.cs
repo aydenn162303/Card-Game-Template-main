@@ -93,10 +93,23 @@ public class GameManager : MonoBehaviour
         this.aiGamesWon = existingDealer.aiGamesWon;
     }
 
-    // Start is called before the first frame update
+
     private void Start()
     {
-        StartRound();
+        Hit.gameObject.SetActive(false);
+        Stand.gameObject.SetActive(false);
+        DoubleDown.gameObject.SetActive(false);
+        playerHandValue.gameObject.SetActive(false);
+        aiHandValue.gameObject.SetActive(false);
+        roundText.gameObject.SetActive(false);
+        plcrown1.gameObject.SetActive(false);
+        plcrown2.gameObject.SetActive(false);
+        plcrown3.gameObject.SetActive(false);
+        aicrown1.gameObject.SetActive(false);
+        aicrown2.gameObject.SetActive(false);
+        aicrown3.gameObject.SetActive(false);
+        coverCardAI.gameObject.SetActive(false);
+        StartRound(); //REMOVE THIS WHEN BUTTONS WORK
         AICanDraw = false;
 
     }
@@ -106,6 +119,8 @@ public class GameManager : MonoBehaviour
     {
         buttonPressDelay -= Time.deltaTime;
         AddedAIHandTotal = AIHandTotal + AIHandTotalHidden;
+
+        //ADD CODE TO WAIT UNTIL BETTING IS OVER TO STAET THE GAME
     }
 
     void StartRound()
