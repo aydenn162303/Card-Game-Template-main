@@ -432,12 +432,16 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator AITurn()
     {
+        foreach (Card card in ai_hidden_cards)
+        {
+            card.hidden = false;
+        }
         print("AI Turn begin");
         Hit.gameObject.SetActive(false);
         Stand.gameObject.SetActive(false);
         DoubleDown.gameObject.SetActive(false);
         yield return new WaitForSeconds(2);
-
+    
         //What the Ai chooses to do is here, for now it will just draw until it hits 16 or more.
         AddedAIHandTotal = AIHandTotal + AIHandTotalHidden; //make sure this value is correct
         if (AddedAIHandTotal <= targetHandSize - 5 || AddedAIHandTotal < playerHandTotal && playerHandTotal <= targetHandSize)
@@ -452,7 +456,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(RoundEnd());
             print("AI Stand");
         }
-
+    
     }
 
     IEnumerator RoundEnd()

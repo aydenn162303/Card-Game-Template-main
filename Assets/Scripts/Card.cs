@@ -12,6 +12,7 @@ public class Card : MonoBehaviour
     public string description;
     //health is number
     public Sprite sprite;
+    public GameObject canvas;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI TopLeft;
@@ -23,6 +24,8 @@ public class Card : MonoBehaviour
     public int valueNotOnCard = 9; //this will not stay 9
     private GameObject Dealer;
     public bool hidden = false; // add stuff to hide if it is true
+    public float yValue = 0;
+    public bool waituntilnothidden = false;
         
 
     // Start is called before the first frame update
@@ -33,6 +36,8 @@ public class Card : MonoBehaviour
         {
             LoadCardData(data);
         }
+        canvas = GameObject.FindWithTag("Canvas");
+
     }
 
         //listpos = Dealer.GetComponent<GameManager>().player_hand.IndexOf(this.gameObject.GetComponent<Card>());
@@ -64,6 +69,22 @@ public class Card : MonoBehaviour
         {
             StartCoroutine(MoveCard());
         }
+
+        if (hidden)
+        {
+            this.transform.SetParent(null);
+        }
+
+        if (Dealer.GetComponent<GameManager>().AICanDraw == true)
+        {
+            hidden = false;
+        }
+
+        if (!hidden)
+        {
+            this.transform.SetParent(canvas.transform);  
+        }
+
     }
     
     IEnumerator MoveCard()
