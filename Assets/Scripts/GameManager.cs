@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public Image aicrown3;
 
     public Image coverCardAI;
+    private bool bet = false;
 
     public int Money = 200;
     public int BetValue = 0;
@@ -108,7 +109,6 @@ public class GameManager : MonoBehaviour
         Stand.gameObject.SetActive(false);
         DoubleDown.gameObject.SetActive(false);
         playerHandValue.gameObject.SetActive(false);
-        aiHandValue.gameObject.SetActive(false);
         roundText.gameObject.SetActive(false);
         plcrown1.gameObject.SetActive(false);
         plcrown2.gameObject.SetActive(false);
@@ -122,6 +122,12 @@ public class GameManager : MonoBehaviour
         fifty.gameObject.SetActive(true);
         oneHundred.gameObject.SetActive(true);
         fiveHundred.gameObject.SetActive(true);
+
+        bet = true;
+        aiHandValue.gameObject.SetActive(true);
+        playerHandValue.gameObject.SetActive(true);
+        aiHandValue.text = "Money: " + Money.ToString();
+        playerHandValue.text = "Bet: " + BetValue.ToString();
         //StartRound(); //REMOVE THIS WHEN BUTTONS WORK
         AICanDraw = false;
 
@@ -133,24 +139,40 @@ public class GameManager : MonoBehaviour
         buttonPressDelay -= Time.deltaTime;
         AddedAIHandTotal = AIHandTotal + AIHandTotalHidden;
 
+        if (bet)
+        {
+            playerHandValue.text = "Bet: " + BetValue.ToString();
+            aiHandValue.text = "Money: " + Money.ToString();
+        }
+
         //ADD CODE TO WAIT UNTIL BETTING IS OVER TO STAET THE GAME
     }
 
     public void addToBet(int value)
     {
         if (value != 1) { BetValue += value; } else { BetValue = 0; }
+
+
     }
 
 
     public void FinishedBetting()
     {
-        five.gameObject.SetActive(false);
-        twentyfive.gameObject.SetActive(false);
-        fifty.gameObject.SetActive(false);
-        oneHundred.gameObject.SetActive(false);
-        fiveHundred.gameObject.SetActive(false);
-        //code for removing money and stuff
-        StartRound();
+        if (bet == true && BetValue > 0 && BetValue <= Money)
+        {
+            Money -= BetValue;
+            bet = false;
+            five.gameObject.SetActive(false);
+            twentyfive.gameObject.SetActive(false);
+            fifty.gameObject.SetActive(false);
+            oneHundred.gameObject.SetActive(false);
+            fiveHundred.gameObject.SetActive(false);   
+            StartRound();
+        }
+        else
+        {
+            print("Invalid Bet");
+        }
     }
 
 
